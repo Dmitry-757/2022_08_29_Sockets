@@ -19,13 +19,23 @@ public class SocketClient {
         ) {
             while (true) {
                 System.out.println("print what something to pass to server:");
-                String word = reader.readLine(); // ждём пока клиент что-нибудь
+                String ourMessage = reader.readLine(); // ждём пока клиент что-нибудь
                 // не напишет в консоль
-                out.write(word + "\n"); // отправляем сообщение на сервер
+                out.write(ourMessage + "\n"); // отправляем сообщение на сервер
                 out.flush();
                 //Thread.sleep(2000);
-                String serverWord = in.readLine(); // ждём, что скажет сервер
-                System.out.println(serverWord); // получив - выводим на экран
+                String serverMessage = in.readLine(); // ждём, что скажет сервер
+                System.out.println(serverMessage); // получив - выводим на экран
+
+                if (serverMessage.equalsIgnoreCase("exit") ||
+                        serverMessage.equalsIgnoreCase("quit") ||
+                        ourMessage.equalsIgnoreCase("exit") ||
+                        ourMessage.equalsIgnoreCase("quit")) {
+                    System.out.println("let`s end communication ;)");
+                    break;
+                }
+
+
             }
         } catch (IOException e) {
             e.printStackTrace();
