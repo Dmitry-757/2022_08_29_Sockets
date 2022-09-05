@@ -1,9 +1,7 @@
 package org.dng;
 
-import org.w3c.dom.ls.LSOutput;
 
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 public class MonoServer implements Runnable{
