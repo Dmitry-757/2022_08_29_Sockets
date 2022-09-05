@@ -4,9 +4,9 @@ public class Main {
 
     public static void main(String[] args) {
         //start servers factory
-        //ServerFactory.createServers();
+        ServerFactory.createServers();
 
-        System.out.println(RaveGenerator.getSentance());
+        //System.out.println(RaveGenerator.getSentance());
 
 
     }

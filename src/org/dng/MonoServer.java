@@ -33,7 +33,9 @@ public class MonoServer implements Runnable{
                 String clientMessage = in.readLine();
                 System.out.println("Get massage from client = " + clientMessage);
 
-                out.write("you say: " + clientMessage+'\n');
+//                out.write("you say: " + clientMessage+'\n');
+                out.write(RaveGenerator.getSentance()+'\n');
+
                 out.flush();
                 System.out.println("answer was passed");
 
@@ -47,7 +49,7 @@ public class MonoServer implements Runnable{
 //            out.close();
 //            clientSocket.close();
             System.out.println("Closing connection to client on side of server \n" +
-                    "but some thread is still working...\n" +
+                    "but some other threads are still working...\n" +
                     "termination of work will be on a next connection.");
         } catch (IOException e) {
             e.printStackTrace();

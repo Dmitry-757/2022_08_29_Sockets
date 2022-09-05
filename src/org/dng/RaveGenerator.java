@@ -31,25 +31,25 @@ public class RaveGenerator {
     }
 
 
-    private static @NotNull List<String> getSentenceList(){
-
-        List<String> sentenceList = new ArrayList<>();
-
-        try( BufferedReader br = new BufferedReader(
-                new FileReader(fileName))
-        ) {
-            String text = null;
-            while ((text=br.readLine())!=null){
-                final String sentences[] = text.split("[.!?]\\s*");
-                for (int i = 0; i < sentences.length; ++i) {
-                    sentenceList.add(sentences[i]);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return sentenceList;
-    }
+//    private static @NotNull List<String> getSentenceList(){
+//
+//        List<String> sentenceList = new ArrayList<>();
+//
+//        try( BufferedReader br = new BufferedReader(
+//                new FileReader(fileName))
+//        ) {
+//            String text = null;
+//            while ((text=br.readLine())!=null){
+//                final String sentences[] = text.split("[.!?]\\s*");
+//                for (int i = 0; i < sentences.length; ++i) {
+//                    sentenceList.add(sentences[i]);
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return sentenceList;
+//    }
 
     public static String getSentance(){
         Random random = new Random();
