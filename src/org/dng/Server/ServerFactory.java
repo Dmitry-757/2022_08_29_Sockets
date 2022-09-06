@@ -1,4 +1,6 @@
-package org.dng;
+package org.dng.Server;
+
+import org.dng.Server.MonoServer;
 
 import java.io.BufferedReader;
 import java.io.IOException;

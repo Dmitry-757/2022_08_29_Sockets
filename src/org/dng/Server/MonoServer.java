@@ -1,4 +1,4 @@
-package org.dng;
+package org.dng.Server;
 
 
 import java.io.*;
