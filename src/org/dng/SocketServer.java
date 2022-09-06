@@ -24,7 +24,7 @@ public class SocketServer {
             while (true) {
                 String word = in.readLine(); // ждём пока клиент что-нибудь нам напишет
                 System.out.println(word);
-
+                AppContext.getMyLogger("SocketServer").info(word);
                 //answer to client
                 out.write("you wrote : " + word + "\n");
                 out.flush();
