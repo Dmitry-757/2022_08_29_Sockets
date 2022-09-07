@@ -2,7 +2,6 @@ package org.dng.Server;
 
 
 import org.dng.AppContext;
-import org.dng.Server.Service.GetSentenceI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,18 +13,17 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ServerFactory {
-//    static final int MAX_THREADS = 5;
-//    static final int PORT_NUMBER = 8000;
-//    static final int maxCountOfClients = 3;
-//    static final String ipAddress = "127.0.0.1";
-//    static final GetSentenceI getSentenceMethod = RaveGenerator::getSentence;
-static final GetSentenceI getSentenceMethod = AppContext.getGetSentenceMethod();
-static ExecutorService threadPool = Executors.newFixedThreadPool(AppContext.getMaxThreads());
+    private static final int MAX_THREADS = AppContext.getMaxThreads();
+    private static final int PORT_NUMBER = AppContext.getPortNumber();
+    private static final int maxCountOfClients = AppContext.getMaxCountOfClients();
+    private static final String ipAddress = AppContext.getIpAddress();
+
+
+static ExecutorService threadPool = Executors.newFixedThreadPool(MAX_THREADS);
 
     public static void start(){
         //create server on port PORT_NUMBER and console reader on the server
-//        try(ServerSocket server = new ServerSocket(PORT_NUMBER, maxCountOfClients, InetAddress.getByName(ipAddress));
-        try(ServerSocket server = new ServerSocket(AppContext.getPortNumber(), AppContext.getMaxCountOfClients(), InetAddress.getByName(AppContext.getIpAddress()));
+        try(ServerSocket server = new ServerSocket(PORT_NUMBER, maxCountOfClients, InetAddress.getByName(ipAddress));
             BufferedReader keyboardBufReader = new BufferedReader(
                     new InputStreamReader(System.in));
             ) {
@@ -52,15 +50,18 @@ static ExecutorService threadPool = Executors.newFixedThreadPool(AppContext.getM
                 //start waiting connection to server socket
                 Socket client = server.accept();
                 //after connecting server creates socket and now it need to pull it to new thread
-                threadPool.execute(new ClientProcessor(client, getSentenceMethod));
+                threadPool.execute(new ClientProcessor(client, AppContext.getRaveGenerator()));
                 System.out.println("Connection accepted and pass to processing in multithreading part...");
                 AppContext.getMyLogger("Socket server").info("Connection accepted from "+client.getInetAddress());
             }
-            //lets end work of thread pool after all threads stop working
-            threadPool.shutdown();
+
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        finally {
+            //lets end work of thread pool after all threads stop working
+            threadPool.shutdown();
         }
     }
 }

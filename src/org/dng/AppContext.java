@@ -1,7 +1,7 @@
 package org.dng;
 
-import org.dng.Server.Service.GetSentenceI;
 import org.dng.Server.Service.RaveGenerator;
+import org.dng.Server.Service.RaveGeneratorI;
 
 import java.io.IOException;
 import java.util.Date;
@@ -12,12 +12,18 @@ import java.util.logging.*;
 
 public class AppContext {
 
-    static final int MAX_THREADS = 5;
+    static final int MAX_THREADS = 4;
     static final int PORT_NUMBER = 8000;
     static final int maxCountOfClients = 3;
     static final String ipAddress = "127.0.0.1";
     static ExecutorService threadPool = Executors.newFixedThreadPool(MAX_THREADS);
-    static final GetSentenceI getSentenceMethod = RaveGenerator::getSentence;
+
+    static final RaveGeneratorI raveGenerator = RaveGenerator.getInstance();
+
+
+    public static RaveGeneratorI getRaveGenerator() {
+        return raveGenerator;
+    }
 
     public static int getMaxThreads() {
         return MAX_THREADS;
@@ -39,9 +45,9 @@ public class AppContext {
         return threadPool;
     }
 
-    public static GetSentenceI getGetSentenceMethod() {
-        return getSentenceMethod;
-    }
+//    public static GetSentenceI getGetSentenceMethod() {
+//        return getSentenceMethod;
+//    }
 
     //** for logging ***
     //lets make anonymous class ;)

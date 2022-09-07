@@ -4,18 +4,18 @@ package org.dng.Server;
 import org.dng.AppContext;
 import org.dng.Server.Service.DataReader;
 import org.dng.Server.Service.DataSender;
-import org.dng.Server.Service.GetSentenceI;
+import org.dng.Server.Service.RaveGeneratorI;
 
 import java.io.*;
 import java.net.Socket;
 
 public class ClientProcessor implements Runnable{
-    private static Socket clientSocket;
-    private static GetSentenceI getSentenceMethod;
+    private Socket clientSocket;
+    private RaveGeneratorI raveGenerator;
 
-    public ClientProcessor(Socket clientSocket, GetSentenceI methodGetSentenceRef) {
-        ClientProcessor.clientSocket = clientSocket;
-        ClientProcessor.getSentenceMethod = methodGetSentenceRef;
+    public ClientProcessor(Socket clientSocket, RaveGeneratorI raveGenerator) {
+        this.clientSocket = clientSocket;
+        this.raveGenerator = raveGenerator;
     }
 
     @Override
@@ -38,17 +38,10 @@ public class ClientProcessor implements Runnable{
 
             while (!clientSocket.isClosed()) {
                 //waiting for date from client and read it after date coming
-//                String clientMessage = in.readLine();
-//                System.out.println("Get massage from client = " + clientMessage);
-//                AppContext.getMyLogger("SocketServer").info("Get massage from client = " + clientMessage);
                 String clientMessage = DataReader.readData(in);
 
-//                out.write(getSentenceMethod.getSentence()+'\n');
-//                out.flush();
-//                System.out.println("answer was passed");
-//                AppContext.getMyLogger("SocketServer").info("answer was passed");
-
-                DataSender.sendData(out, getSentenceMethod);
+                //writing answer to client
+                DataSender.sendData(out, raveGenerator.getSentence());
 
                 if (clientMessage.equalsIgnoreCase("exit") || clientMessage.equalsIgnoreCase("quit")) {
                     System.out.println("Client was decided become RIP ;)");
