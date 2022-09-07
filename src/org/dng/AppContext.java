@@ -1,11 +1,48 @@
 package org.dng;
 
+import org.dng.Server.Service.GetSentenceI;
+import org.dng.Server.Service.RaveGenerator;
+
 import java.io.IOException;
 import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Formatter;
 import java.util.logging.*;
 
 public class AppContext {
+
+    static final int MAX_THREADS = 5;
+    static final int PORT_NUMBER = 8000;
+    static final int maxCountOfClients = 3;
+    static final String ipAddress = "127.0.0.1";
+    static ExecutorService threadPool = Executors.newFixedThreadPool(MAX_THREADS);
+    static final GetSentenceI getSentenceMethod = RaveGenerator::getSentence;
+
+    public static int getMaxThreads() {
+        return MAX_THREADS;
+    }
+
+    public static int getPortNumber() {
+        return PORT_NUMBER;
+    }
+
+    public static int getMaxCountOfClients() {
+        return maxCountOfClients;
+    }
+
+    public static String getIpAddress() {
+        return ipAddress;
+    }
+
+    public static ExecutorService getThreadPool() {
+        return threadPool;
+    }
+
+    public static GetSentenceI getGetSentenceMethod() {
+        return getSentenceMethod;
+    }
+
     //** for logging ***
     //lets make anonymous class ;)
     private static final Formatter myFormatter = new Formatter() {

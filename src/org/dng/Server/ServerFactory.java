@@ -3,7 +3,6 @@ package org.dng.Server;
 
 import org.dng.AppContext;
 import org.dng.Server.Service.GetSentenceI;
-import org.dng.Server.Service.RaveGenerator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,18 +14,18 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ServerFactory {
-    static final int MAX_THREADS = 5;
-    static final int PORT_NUMBER = 8000;
-    static final int maxCountOfClients = 3;
-    static final String ipAddress = "127.0.0.1";
-    static ExecutorService threadPool = Executors.newFixedThreadPool(MAX_THREADS);
-    static final GetSentenceI getSentenceMethod = RaveGenerator::getSentence;
-    //static RaveGenerateI raveGenerator;
+//    static final int MAX_THREADS = 5;
+//    static final int PORT_NUMBER = 8000;
+//    static final int maxCountOfClients = 3;
+//    static final String ipAddress = "127.0.0.1";
+//    static final GetSentenceI getSentenceMethod = RaveGenerator::getSentence;
+static final GetSentenceI getSentenceMethod = AppContext.getGetSentenceMethod();
+static ExecutorService threadPool = Executors.newFixedThreadPool(AppContext.getMaxThreads());
 
-    public static void createServers(){
+    public static void start(){
         //create server on port PORT_NUMBER and console reader on the server
-//        try(ServerSocket server = new ServerSocket(PORT_NUMBER);
-        try(ServerSocket server = new ServerSocket(PORT_NUMBER, maxCountOfClients, InetAddress.getByName(ipAddress));
+//        try(ServerSocket server = new ServerSocket(PORT_NUMBER, maxCountOfClients, InetAddress.getByName(ipAddress));
+        try(ServerSocket server = new ServerSocket(AppContext.getPortNumber(), AppContext.getMaxCountOfClients(), InetAddress.getByName(AppContext.getIpAddress()));
             BufferedReader keyboardBufReader = new BufferedReader(
                     new InputStreamReader(System.in));
             ) {
@@ -53,7 +52,6 @@ public class ServerFactory {
                 //start waiting connection to server socket
                 Socket client = server.accept();
                 //after connecting server creates socket and now it need to pull it to new thread
-//                GetSentenceI gs = RaveGenerator::getSentence;
                 threadPool.execute(new ClientProcessor(client, getSentenceMethod));
                 System.out.println("Connection accepted and pass to processing in multithreading part...");
                 AppContext.getMyLogger("Socket server").info("Connection accepted from "+client.getInetAddress());

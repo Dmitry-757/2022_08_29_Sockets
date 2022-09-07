@@ -43,8 +43,6 @@ public class ClientProcessor implements Runnable{
 //                AppContext.getMyLogger("SocketServer").info("Get massage from client = " + clientMessage);
                 String clientMessage = DataReader.readData(in);
 
-////                out.write("you say: " + clientMessage+'\n');
-////                out.write(RaveGenerator.getSentence()+'\n');
 //                out.write(getSentenceMethod.getSentence()+'\n');
 //                out.flush();
 //                System.out.println("answer was passed");

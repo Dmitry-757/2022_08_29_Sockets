@@ -1,11 +1,7 @@
 package org.dng;
 
 //import org.dng.Server.Service.RaveGenerator;
-import org.dng.Server.Security.SecurityService;
 import org.dng.Server.ServerFactory;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 //import java.net.URL;
 
 
@@ -14,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
         //start servers factory
-        ServerFactory.createServers();
+        ServerFactory.start();
 
 
 //        System.out.println(url.getPath());
