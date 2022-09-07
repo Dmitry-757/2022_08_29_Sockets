@@ -1,6 +1,7 @@
 package org.dng.Server;
 
-import org.dng.Server.MonoServer;
+
+import org.dng.AppContext;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,6 +35,7 @@ public class ServerFactory {
                         System.out.println("There is no beer more! \n" +
                                 "Factory will be closed...\n" +
                                 "Servers will not be started.\n");
+                        AppContext.getMyLogger("SocketServer").info("Server-factory is shutting down");
                         server.close();
                         break;
                     }
@@ -45,6 +47,7 @@ public class ServerFactory {
                 //after connecting server creates socket and now it need to pull it to new thread
                 threadPool.execute(new MonoServer(client));
                 System.out.println("Connection accepted and pass to processing in multithreading part...");
+                AppContext.getMyLogger("Socket server").info("Connection accepted from "+client.getInetAddress());
             }
             //lets end work of thread pool after all threads stop working
             threadPool.shutdown();
