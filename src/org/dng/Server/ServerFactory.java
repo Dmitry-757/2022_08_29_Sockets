@@ -54,7 +54,7 @@ public class ServerFactory {
                 Socket client = server.accept();
                 //after connecting server creates socket and now it need to pull it to new thread
 //                GetSentenceI gs = RaveGenerator::getSentence;
-                threadPool.execute(new MonoServer(client, getSentenceMethod));
+                threadPool.execute(new ClientProcessor(client, getSentenceMethod));
                 System.out.println("Connection accepted and pass to processing in multithreading part...");
                 AppContext.getMyLogger("Socket server").info("Connection accepted from "+client.getInetAddress());
             }

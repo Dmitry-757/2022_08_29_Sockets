@@ -2,18 +2,20 @@ package org.dng.Server;
 
 
 import org.dng.AppContext;
+import org.dng.Server.Service.DataReader;
+import org.dng.Server.Service.DataSender;
 import org.dng.Server.Service.GetSentenceI;
 
 import java.io.*;
 import java.net.Socket;
 
-public class MonoServer implements Runnable{
+public class ClientProcessor implements Runnable{
     private static Socket clientSocket;
     private static GetSentenceI getSentenceMethod;
 
-    public MonoServer(Socket clientSocket, GetSentenceI gs) {
-        MonoServer.clientSocket = clientSocket;
-        MonoServer.getSentenceMethod = gs;
+    public ClientProcessor(Socket clientSocket, GetSentenceI methodGetSentenceRef) {
+        ClientProcessor.clientSocket = clientSocket;
+        ClientProcessor.getSentenceMethod = methodGetSentenceRef;
     }
 
     @Override
@@ -34,21 +36,21 @@ public class MonoServer implements Runnable{
 
         ) {
 
-
             while (!clientSocket.isClosed()) {
                 //waiting for date from client and read it after date coming
-                String clientMessage = in.readLine();
-                System.out.println("Get massage from client = " + clientMessage);
-                AppContext.getMyLogger("SocketServer").info("Get massage from client = " + clientMessage);
+//                String clientMessage = in.readLine();
+//                System.out.println("Get massage from client = " + clientMessage);
+//                AppContext.getMyLogger("SocketServer").info("Get massage from client = " + clientMessage);
+                String clientMessage = DataReader.readData(in);
 
+////                out.write("you say: " + clientMessage+'\n');
+////                out.write(RaveGenerator.getSentence()+'\n');
+//                out.write(getSentenceMethod.getSentence()+'\n');
+//                out.flush();
+//                System.out.println("answer was passed");
+//                AppContext.getMyLogger("SocketServer").info("answer was passed");
 
-//                out.write("you say: " + clientMessage+'\n');
-//                out.write(RaveGenerator.getSentence()+'\n');
-                out.write(getSentenceMethod.getSentence()+'\n');
-
-                out.flush();
-                System.out.println("answer was passed");
-                AppContext.getMyLogger("SocketServer").info("answer was passed");
+                DataSender.sendData(out, getSentenceMethod);
 
                 if (clientMessage.equalsIgnoreCase("exit") || clientMessage.equalsIgnoreCase("quit")) {
                     System.out.println("Client was decided become RIP ;)");
