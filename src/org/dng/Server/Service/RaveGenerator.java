@@ -1,6 +1,4 @@
-package org.dng.Server;
-
-import org.jetbrains.annotations.NotNull;
+package org.dng.Server.Service;
 
 import java.io.*;
 import java.net.URL;
@@ -9,7 +7,6 @@ import java.util.*;
 public class RaveGenerator {
 //    private static final String fileName = "d:\\text.txt";
 
-//    getResource("resources/text.txt");
     private static List<String> sentenceList=new ArrayList<>();
 
     static {
@@ -41,7 +38,7 @@ public class RaveGenerator {
         }
     }
 
-    public static String getSentance(){
+    public static String getSentence(){
         Random random = new Random();
         //get random sentence from range between 0 and  sentenceList.size()-1
         return sentenceList.get(random.nextInt(sentenceList.size()-1));

@@ -1,6 +1,8 @@
 package org.dng.Client.UI;
 
 
+import org.dng.Client.UI.ConsoleUI.ConsoleUI;
+
 public class ClientUIManager {
 
     public static MessagePrinterI getMsgPrinter(TypeUI typeUI){

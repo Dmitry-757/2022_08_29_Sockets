@@ -2,19 +2,24 @@ package org.dng.Server;
 
 
 import org.dng.AppContext;
+import org.dng.Server.Service.GetSentenceI;
 
 import java.io.*;
 import java.net.Socket;
 
 public class MonoServer implements Runnable{
     private static Socket clientSocket;
+    private static GetSentenceI getSentenceMethod;
 
-    public MonoServer(Socket clientSocket) {
+    public MonoServer(Socket clientSocket, GetSentenceI gs) {
         MonoServer.clientSocket = clientSocket;
+        MonoServer.getSentenceMethod = gs;
     }
 
     @Override
     public void run() {
+//        RaveGenerateI rg = RaveGenerator::getSentence;
+//        GetSentenceI gs = RaveGenerator::getSentence;
         System.out.println("Thread "+Thread.currentThread().getName()+" started");
         try (
                 //ServerSocket serverSocket = new ServerSocket(8000);
@@ -38,7 +43,8 @@ public class MonoServer implements Runnable{
 
 
 //                out.write("you say: " + clientMessage+'\n');
-                out.write(RaveGenerator.getSentance()+'\n');
+//                out.write(RaveGenerator.getSentence()+'\n');
+                out.write(getSentenceMethod.getSentence()+'\n');
 
                 out.flush();
                 System.out.println("answer was passed");
