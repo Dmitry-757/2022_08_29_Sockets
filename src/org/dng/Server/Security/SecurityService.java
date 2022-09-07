@@ -9,7 +9,7 @@ import java.security.spec.KeySpec;
 
 public class SecurityService {
     private static final int ALGORITHM_STRENGTH  = 65536;
-    private static final int KEY_LENGTH  = 65536;
+    private static final int KEY_LENGTH  = 128;
     private static final String ALGORITHM_NAME = "PBKDF2WithHmacSHA1";
 
 
