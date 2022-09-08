@@ -2,6 +2,7 @@ package org.dng.Server;
 
 
 import org.dng.AppContext;
+import org.dng.Server.Security.SecurityService;
 import org.dng.Server.Service.DataReader;
 import org.dng.Server.Service.DataSender;
 import org.dng.Server.Service.RaveGeneratorI;
@@ -10,8 +11,9 @@ import java.io.*;
 import java.net.Socket;
 
 public class ClientProcessor implements Runnable{
-    private Socket clientSocket;
-    private RaveGeneratorI raveGenerator;
+    private final Socket clientSocket;
+    private final RaveGeneratorI raveGenerator;
+    private String clientName;
 
     public ClientProcessor(Socket clientSocket, RaveGeneratorI raveGenerator) {
         this.clientSocket = clientSocket;
@@ -37,6 +39,18 @@ public class ClientProcessor implements Runnable{
         ) {
 
             while (!clientSocket.isClosed()) {
+
+                //try to authenticate client
+
+                if (clientName == null) {
+                    if ((clientName = SecurityService.authenticateClient(out, in)) == null) {
+                        System.out.println("Client was not authenticated!");
+                        AppContext.getMyLogger("SocketServer").warning("Client was not authenticated!");
+                        break;
+                    }
+                    AppContext.getMyLogger("").info("User = " + clientName + " was authenticated.");
+                }
+
                 //waiting for date from client and read it after date coming
                 String clientMessage = DataReader.readData(in);
 
